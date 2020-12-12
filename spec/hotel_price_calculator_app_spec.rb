@@ -2,7 +2,7 @@
 
 require 'rspec'
 require 'rack/test'
-require_relative '../lib/app'
+require_relative '../lib/hotel_price_calculator_app'
 
 describe HotelPriceCalculatorApp do
   include Rack::Test::Methods
@@ -27,7 +27,7 @@ describe HotelPriceCalculatorApp do
   end
 
   it 'calculates prices based on tenant id and hotel prices from service' do
-    prices = { hotels: [{ id: 12, price: 100 }, { id: 98, price: 200 }] }
+    prices = { hotels: [{ id: 'ab12', price: 100 }, { id: 'xy98', price: 200 }] }
     allow(hotel_supplier_service).to receive(:retrieve_hotel_prices).and_return(prices)
 
     get '/hotels/price?tenant_id=A'
