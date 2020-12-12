@@ -8,4 +8,5 @@ gem 'sinatra', '~> 2.1.0'
 group :test do
   gem 'rspec', '~> 3.10.0'
   gem 'rubocop', require: false
+  gem 'rack-test', '~> 1.1.0'
 end
