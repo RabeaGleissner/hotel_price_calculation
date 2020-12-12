@@ -1,0 +1,44 @@
+AllCops:
+  Exclude:
+    - 'spec/spec_helper.rb'
+    - 'Gemfile'
+
+Style/Documentation:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
+Lint/DuplicateBranch:
+  Enabled: true
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+Lint/EmptyBlock:
+  Enabled: true
+Lint/EmptyClass:
+  Enabled: true
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+Lint/ToEnumArguments:
+  Enabled: true
+Lint/UnexpectedBlockArity:
+  Enabled: true
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+Style/ArgumentsForwarding:
+  Enabled: true
+Style/CollectionCompact:
+  Enabled: true
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+Style/NegatedIfElseCondition:
+  Enabled: true
+Style/NilLambda:
+  Enabled: true
+Style/RedundantArgument:
+  Enabled: true
+Style/SwapValues:
+  Enabled: true
+Metrics/BlockLength:
+  IgnoredMethods:
+    - describe
+    - it
+    - configure
