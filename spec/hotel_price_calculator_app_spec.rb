@@ -2,6 +2,7 @@
 
 require 'rspec'
 require 'rack/test'
+require 'json'
 require_relative '../lib/hotel_price_calculator_app'
 
 describe HotelPriceCalculatorApp do
@@ -52,8 +53,19 @@ describe HotelPriceCalculatorApp do
       get '/hotels/price?tenant_id=A'
 
       expect(last_response.status).to eq(200)
-      expect(Calculators::PriceCalculator).to have_received(:new).with('A', prices)
-      expect(price_calculator).to have_received(:calculate)
+      expect(Calculators::PriceCalculator).to have_received(:new).with('A')
+      expect(price_calculator).to have_received(:calculate).with(prices)
+    end
+
+    it 'returns new prices for tenant' do
+      response = [{ hotel_id: '124', price: 129.5 }]
+      allow(Calculators::PriceCalculator).to receive(:new).with('A').and_return(price_calculator)
+      allow(price_calculator).to receive(:calculate).and_return(response)
+
+      get '/hotels/price?tenant_id=A'
+
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq(JSON.generate(response))
     end
   end
 end

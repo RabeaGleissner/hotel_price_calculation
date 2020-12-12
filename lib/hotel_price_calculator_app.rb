@@ -16,6 +16,6 @@ class HotelPriceCalculatorApp < Sinatra::Base
       return status 404
     end
 
-    Calculators::PriceCalculator.new(tenant_id, prices).calculate
+    Calculators::PriceCalculator.new(tenant_id).calculate(prices).to_json
   end
 end
