@@ -39,6 +39,8 @@ Style/SwapValues:
   Enabled: true
 Style/SymbolArray:
   Enabled: false
+Style/WordArray:
+  Enabled: false
 Metrics/BlockLength:
   IgnoredMethods:
     - describe
