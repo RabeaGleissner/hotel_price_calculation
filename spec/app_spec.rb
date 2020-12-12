@@ -19,8 +19,9 @@ describe HotelPriceCalculatorApp do
   end
 
   it 'retrieves the hotel prices' do
-    get '/hotels/price'
+    get '/hotels/price?tenant_id=A'
 
+    expect(last_response.status).to eq(200)
     expect(Services::HotelSupplierService).to have_received(:new)
     expect(hotel_supplier_service).to have_received(:retrieve_hotel_prices)
   end
@@ -31,7 +32,14 @@ describe HotelPriceCalculatorApp do
 
     get '/hotels/price?tenant_id=A'
 
+    expect(last_response.status).to eq(200)
     expect(Calculators::PriceCalculator).to have_received(:new).with('A', prices)
     expect(price_calculator).to have_received(:calculate)
+  end
+
+  it 'errors when no tenant id is given' do
+    get '/hotels/price'
+
+    expect(last_response.status).to eq(400)
   end
 end
