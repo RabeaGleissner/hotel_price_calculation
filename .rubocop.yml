@@ -37,6 +37,8 @@ Style/RedundantArgument:
   Enabled: true
 Style/SwapValues:
   Enabled: true
+Style/SymbolArray:
+  Enabled: false
 Metrics/BlockLength:
   IgnoredMethods:
     - describe
