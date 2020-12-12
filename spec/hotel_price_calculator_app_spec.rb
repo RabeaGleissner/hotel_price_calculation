@@ -18,28 +18,42 @@ describe HotelPriceCalculatorApp do
     allow(Calculators::PriceCalculator).to receive(:new).and_return(price_calculator)
   end
 
-  it 'retrieves the hotel prices' do
-    get '/hotels/price?tenant_id=A'
+  context 'error responses' do
+    it 'errors when no tenant id is given' do
+      get '/hotels/price'
 
-    expect(last_response.status).to eq(200)
-    expect(Services::HotelSupplierService).to have_received(:new)
-    expect(hotel_supplier_service).to have_received(:retrieve_hotel_prices)
+      expect(last_response.status).to eq(400)
+    end
+
+    it 'errors when no hotel prices are returned from hotel supplier' do
+      allow(hotel_supplier_service).to receive(:retrieve_hotel_prices).and_return([])
+      get '/hotels/price?tenant_id=A'
+
+      expect(last_response.status).to eq(404)
+    end
   end
 
-  it 'calculates prices based on tenant id and hotel prices from service' do
+  context 'with prices returned from hotel supplier service' do
     prices = { hotels: [{ id: 'ab12', price: 100 }, { id: 'xy98', price: 200 }] }
-    allow(hotel_supplier_service).to receive(:retrieve_hotel_prices).and_return(prices)
 
-    get '/hotels/price?tenant_id=A'
+    before(:each) do
+      allow(hotel_supplier_service).to receive(:retrieve_hotel_prices).and_return(prices)
+    end
 
-    expect(last_response.status).to eq(200)
-    expect(Calculators::PriceCalculator).to have_received(:new).with('A', prices)
-    expect(price_calculator).to have_received(:calculate)
-  end
+    it 'retrieves the hotel prices' do
+      get '/hotels/price?tenant_id=A'
 
-  it 'errors when no tenant id is given' do
-    get '/hotels/price'
+      expect(last_response.status).to eq(200)
+      expect(Services::HotelSupplierService).to have_received(:new)
+      expect(hotel_supplier_service).to have_received(:retrieve_hotel_prices)
+    end
 
-    expect(last_response.status).to eq(400)
+    it 'calculates prices based on tenant id and hotel prices from service' do
+      get '/hotels/price?tenant_id=A'
+
+      expect(last_response.status).to eq(200)
+      expect(Calculators::PriceCalculator).to have_received(:new).with('A', prices)
+      expect(price_calculator).to have_received(:calculate)
+    end
   end
 end
