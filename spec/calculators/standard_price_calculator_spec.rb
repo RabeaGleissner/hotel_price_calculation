@@ -19,15 +19,15 @@ describe Calculators::StandardPriceCalculator do
       { hotel_id: 'kDlX', price: 562.0 },
       { hotel_id: '82Dx', price: 987.5 }
     ]
-    standard_price_calculator = Calculators::StandardPriceCalculator.new(prices, 15, 10, 1000)
+    standard_price_calculator = Calculators::StandardPriceCalculator.new(15, 10, 1000)
 
-    expect(standard_price_calculator.calculate).to eq(expected_prices)
+    expect(standard_price_calculator.calculate(prices)).to eq(expected_prices)
   end
 
   it 'adds $25 service fee and removes hotels more expensive than $500' do
     expected_prices = [{ hotel_id: 'xYhd', price: 145 }]
-    standard_price_calculator = Calculators::StandardPriceCalculator.new(prices, 0, 25, 500)
+    standard_price_calculator = Calculators::StandardPriceCalculator.new(0, 25, 500)
 
-    expect(standard_price_calculator.calculate).to eq(expected_prices)
+    expect(standard_price_calculator.calculate(prices)).to eq(expected_prices)
   end
 end
