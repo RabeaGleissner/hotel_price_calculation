@@ -8,13 +8,15 @@ module Services
 
     def retrieve_hotel_prices
       hotel_prices = Request.get(HOTEL_SUPPLIER_URL)
-      unless hotel_prices.key?(:hotels)
+      unless hotel_prices.key?('hotels')
         return []
       end
 
-      hotel_prices[:hotels].select do |hotel_price|
-        (hotel_price.keys & [:id, :price]).length == 2
+      ret = hotel_prices['hotels'].select do |hotel_price|
+        (hotel_price.keys & ['id', 'price']).length == 2
       end
+
+      ret.map { |hotel_with_price| hotel_with_price.transform_keys(&:to_sym) }
     end
   end
 end
