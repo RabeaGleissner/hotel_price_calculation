@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec'
 require 'rack/test'
 require 'json'
 require_relative '../lib/hotel_price_calculator_app'
