@@ -40,20 +40,20 @@ describe Calculators::PriceCalculatorFactory do
   end
 
   context 'calculator for tenant C' do
-    it 'gets the special price calculator for tenant C' do
+    it 'gets the calculator for tenant C' do
       factory = Calculators::PriceCalculatorFactory.new('C')
       price_calculator = factory.create
 
-      expect(price_calculator).to be_a(Calculators::SpecialPriceCalculator)
+      expect(price_calculator).to be_a(Calculators::TenantCPriceCalculator)
     end
 
-    it 'instantiates price calculator for tenant C with correct values' do
-      allow(Calculators::SpecialPriceCalculator).to receive(:new)
+    it 'instantiates calculator for tenant C' do
+      allow(Calculators::TenantCPriceCalculator).to receive(:new)
 
       factory = Calculators::PriceCalculatorFactory.new('C')
       factory.create
 
-      expect(Calculators::SpecialPriceCalculator).to have_received(:new).with(:c)
+      expect(Calculators::TenantCPriceCalculator).to have_received(:new)
     end
   end
 end

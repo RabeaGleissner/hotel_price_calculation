@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'standard_price_calculator'
-require_relative 'special_price_calculator'
+require_relative 'tenant_c_price_calculator'
 
 module Calculators
   class PriceCalculatorFactory
@@ -13,7 +13,7 @@ module Calculators
       price_calculators = {
         a: StandardPriceCalculator.new(15, 10, 1000),
         b: StandardPriceCalculator.new(0, 25, 500),
-        c: SpecialPriceCalculator.new(@tenant_id)
+        c: TenantCPriceCalculator.new
       }
       price_calculators[@tenant_id]
     end
