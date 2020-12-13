@@ -23,7 +23,7 @@ describe Calculators::TenantCPriceCalculator do
     expect(tenant_c_price_calculator.calculate(prices)).to eq([{ hotel_id: 'xyz', price: 1500.0 }])
   end
 
-  it 'removes hotel from list if original price is above 1000' do
+  it 'removes hotel from list if cost price is above 1000' do
     prices = [{ id: 'xyz', price: 1001 }]
 
     expect(tenant_c_price_calculator.calculate(prices)).to eq([])

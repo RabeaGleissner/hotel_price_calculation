@@ -48,7 +48,7 @@ describe HotelPriceCalculatorApp do
       expect(hotel_supplier_service).to have_received(:retrieve_hotel_prices)
     end
 
-    it 'calculates prices based on tenant id and hotel prices from service' do
+    it 'calculates new prices based on tenant id and cost prices from service' do
       get '/hotels/price?tenant_id=A'
 
       expect(last_response.status).to eq(200)
