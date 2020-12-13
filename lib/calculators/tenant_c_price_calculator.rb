@@ -6,7 +6,7 @@ module Calculators
 
     THRESHOLDS_WITH_NEW_PRICES = {
       [0, 200] => 250,
-      [201, 300] => 800,
+      [201, 500] => 800,
       [501, 1000] => 1500
     }.freeze
 
@@ -21,7 +21,7 @@ module Calculators
     def new_price(price)
       THRESHOLDS_WITH_NEW_PRICES.each do |threshold, new_price|
         if price >= threshold[0] && price <= threshold[1]
-          return new_price
+          return new_price.to_f
         end
       end
     end
