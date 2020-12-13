@@ -4,7 +4,7 @@ module Calculators
   class TenantCPriceCalculator
     MAX_COST_PRICE = 1000
 
-    THRESHOLDS_WITH_NEW_PRICES = {
+    PRICE_SPAN_WITH_NEW_PRICES = {
       [0, 200] => 250,
       [201, 500] => 800,
       [501, 1000] => 1500
@@ -22,8 +22,8 @@ module Calculators
     private
 
     def new_price(cost_price)
-      THRESHOLDS_WITH_NEW_PRICES.each do |threshold, new_price|
-        if cost_price >= threshold[0] && cost_price <= threshold[1]
+      PRICE_SPAN_WITH_NEW_PRICES.each do |span, new_price|
+        if cost_price >= span[0] && cost_price <= span[1]
           return new_price.to_f
         end
       end
