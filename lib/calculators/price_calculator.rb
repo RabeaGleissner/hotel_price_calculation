@@ -5,8 +5,7 @@ require_relative 'price_calculator_factory'
 module Calculators
   class PriceCalculator
     def initialize(tenant_id)
-      @tenant_id = tenant_id
-      @price_calculator_factory = PriceCalculatorFactory.new(@tenant_id)
+      @price_calculator_factory = PriceCalculatorFactory.new(tenant_id)
     end
 
     def calculate(prices)

@@ -7,16 +7,20 @@ module Services
     HOTEL_SUPPLIER_URL = 'http://www.mocky.io/v2/5d99f2ac310000720097da14'
 
     def retrieve_hotel_prices
-      hotel_prices = Request.get(HOTEL_SUPPLIER_URL)
-      unless hotel_prices.key?('hotels')
+      hotels_with_prices = Request.get(HOTEL_SUPPLIER_URL)
+      unless hotels_with_prices.key?('hotels')
         return []
       end
 
-      ret = hotel_prices['hotels'].select do |hotel_price|
-        (hotel_price.keys & ['id', 'price']).length == 2
+      hotel_prices_with_complete_data(hotels_with_prices).map do |hotel_with_price|
+        hotel_with_price.transform_keys(&:to_sym)
       end
+    end
 
-      ret.map { |hotel_with_price| hotel_with_price.transform_keys(&:to_sym) }
+    def hotel_prices_with_complete_data(hotels_with_prices)
+      hotels_with_prices['hotels'].select do |hotel_with_price|
+        (hotel_with_price.keys & ['id', 'price']).length == 2
+      end
     end
   end
 end
