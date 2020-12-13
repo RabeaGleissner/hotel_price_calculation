@@ -37,8 +37,14 @@ That's why I created the `StandardPriceCalculator`, which is initialised with th
 
 Tenant C is describe as an "extreme case", which requires completely different pricing logic, so I created a class specifically for that tenant.
 
-To add a new standard tenant, we simply need to add a new key-value pair to the `price_calculators` hash in the `PriceCalculatorFactory`.
-This hash could even be extracted into a config file.
+To add a new standard tenant, we simply need to add their details to the `config.yml` in this format:
+
+```
+tenant_id:
+  - markup
+  - service_fee
+  - max_price
+```
 
 To add a special price calculator like the one for tenant C, we would need to add a new class which conforms to the same interface as the other price calculators (i.e. has a method `calculate` which takes the hotel prices as an argument) and then also add that to the factory method.
 
@@ -62,16 +68,19 @@ If I were to test it, I'd ultimately test the gem itself which is not necessary.
 I had already spent quite a lot of time on creating this application, so I wanted to draw the line somewhere. I'm aware that some improvements can be made, so I thought I'd list my thoughts here.
 
 
-### Adding standard calculator parameters into a config file
+### Adding standard calculator parameters to config file
 
-The standard calculators are all initialised with the same parameters. These parameters could be extracted into a config file, which the `PriceCalculatorFactory` could use. That way, a new tenant could be added without having to re-deploy the whole application.
+It might be better to make it clearer what the parameters are, instead of just adding them as an array into the yaml file.
+At the moment it would be easy to make a mistake and mix up the order of the numbers, for example.
+It would be better if the three parameters were added as a hash.
 
 
 ### Validation
 
 Based on the instructions I figured that validation of query string parameters is not a priority, so I'm currently not validating if the tenant id exists. So if the API is called with any other id than A,B or C the program will crash.
 
-For a production app I would do any validation like that in the controller. So if the tenants were added to a config file, this file would need to be read in the controller to check if the tenant exists.
+The validation should be done in the controller, before any of the application logic runs.
+We could use the config file to check if the tenant exists - in that case we would also need to add any "special case" tenants, like tenant C.
 
 
 ### Tests for tenant C price calculator
