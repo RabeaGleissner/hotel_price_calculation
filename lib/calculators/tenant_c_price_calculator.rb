@@ -19,6 +19,8 @@ module Calculators
       end
     end
 
+    private
+
     def new_price(cost_price)
       THRESHOLDS_WITH_NEW_PRICES.each do |threshold, new_price|
         if cost_price >= threshold[0] && cost_price <= threshold[1]
