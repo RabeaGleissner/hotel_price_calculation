@@ -5,17 +5,17 @@ require_relative 'tenant_c_price_calculator'
 
 module Calculators
   class PriceCalculatorFactory
-    def initialize(tenant_id)
-      @tenant_id = tenant_id.downcase.to_sym
+    def initialize(tenant_id, standard_tenants)
+      @tenant_id = tenant_id.downcase
+      @standard_tenants = standard_tenants
     end
 
     def create
-      price_calculators = {
-        a: StandardPriceCalculator.new(15, 10, 1000),
-        b: StandardPriceCalculator.new(0, 25, 500),
-        c: TenantCPriceCalculator.new
-      }
-      price_calculators[@tenant_id]
+      if @tenant_id == 'c'
+        return TenantCPriceCalculator.new
+      end
+
+      StandardPriceCalculator.new(*@standard_tenants[@tenant_id])
     end
   end
 end

@@ -34,7 +34,8 @@ describe HotelPriceCalculatorApp do
   end
 
   context 'with prices returned from hotel supplier service' do
-    prices = { hotels: [{ id: 'ab12', price: 100 }, { id: 'xy98', price: 200 }] }
+    let(:prices) { { hotels: [{ id: 'ab12', price: 100 }, { id: 'xy98', price: 200 }] } }
+    let(:config) { { 'a' => [15, 10, 1000], 'b' => [0, 25, 500] } }
 
     before(:each) do
       allow(hotel_supplier_service).to receive(:retrieve_hotel_prices).and_return(prices)
@@ -52,13 +53,13 @@ describe HotelPriceCalculatorApp do
       get '/hotels/price?tenant_id=A'
 
       expect(last_response.status).to eq(200)
-      expect(Calculators::PriceCalculator).to have_received(:new).with('A')
+      expect(Calculators::PriceCalculator).to have_received(:new).with('A', config)
       expect(price_calculator).to have_received(:calculate).with(prices)
     end
 
     it 'returns new prices for tenant' do
       response = [{ hotel_id: '124', price: 129.5 }]
-      allow(Calculators::PriceCalculator).to receive(:new).with('A').and_return(price_calculator)
+      allow(Calculators::PriceCalculator).to receive(:new).with('A', config).and_return(price_calculator)
       allow(price_calculator).to receive(:calculate).and_return(response)
 
       get '/hotels/price?tenant_id=A'

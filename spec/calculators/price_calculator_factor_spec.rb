@@ -3,8 +3,9 @@
 require 'calculators/price_calculator_factory'
 
 describe Calculators::PriceCalculatorFactory do
+  let(:standard_tenants) { { 'a' => [15, 10, 1000], 'b' => [0, 25, 500] } }
   context 'calculator for tenant A' do
-    let(:factory) { Calculators::PriceCalculatorFactory.new('A') }
+    let(:factory) { Calculators::PriceCalculatorFactory.new('A', standard_tenants) }
 
     it 'gets the standard price calculator for tenant A' do
       price_calculator = factory.create
@@ -22,7 +23,7 @@ describe Calculators::PriceCalculatorFactory do
   end
 
   context 'calculator for tenant B' do
-    let(:factory) { Calculators::PriceCalculatorFactory.new('B') }
+    let(:factory) { Calculators::PriceCalculatorFactory.new('B', standard_tenants) }
 
     it 'gets the standard price calculator for tenant B' do
       price_calculator = factory.create
@@ -40,7 +41,7 @@ describe Calculators::PriceCalculatorFactory do
   end
 
   context 'calculator for tenant C' do
-    let(:factory) { Calculators::PriceCalculatorFactory.new('C') }
+    let(:factory) { Calculators::PriceCalculatorFactory.new('C', standard_tenants) }
 
     it 'gets the calculator for tenant C' do
       price_calculator = factory.create
